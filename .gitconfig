@@ -25,6 +25,35 @@
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
 	# Undo a `git push`
 	undopush = push -f origin HEAD^:master
+	
+	## extra aliases from old configuration
+	
+	# make sure to have a global .gitignore (in ~) file first, the command
+  # 'git ignore' allows for specific files/directories to be added.
+  ignore = "!f () { local ignore_file=$( git rev-parse --show-cdup ).gitignore arg; for arg in $*; do; echo $arg >> $ignore_file; done; sort -u -o $ignore_file $ignore_file; }; f"
+  # some alias from svn
+  st = status
+  ci = commit
+  cn = clone
+  co = checkout
+  br = branch
+  df = diff
+  dc = diff --cached
+  ps = push
+  pl = pull
+  lg = log -p
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ls = ls-files
+  # ignored files
+  ign = ls-files -o -i --exclude-standard
+  
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 
 [apply]
 	# Detect whitespace errors when applying a patch
